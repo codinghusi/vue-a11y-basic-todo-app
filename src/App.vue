@@ -11,7 +11,7 @@ export default {
     return {
       todos: [
         { id: 1, description: "Erster Todo Punkt",  done: false },
-        { id: 2, description: "Zweiter Todo Punkt", done: false },
+        { id: 2, description: "Zweiter Todo Punkt", done: true },
         { id: 3, description: "Dritter Todo Punkt", done: false },
       ]
     }
@@ -20,15 +20,18 @@ export default {
 </script>
 
 <template>
-  <div id="app">
+  <div id="app" class="mx-auto w-1/2">
     <Header />
 
-    <main>
-      <TodoList :todos="todos" />
+    <main class="mt-4">
+      <TodoList :todos="todos" class="w-full" />
 
-      <button class="border rounded p-2 m-4">
-        ADD
-      </button>
+      <div class="flex justify-end">
+        <button class="border rounded p-2 mt-4">
+          add
+        </button>
+      </div>
     </main>
+      
   </div>
 </template>

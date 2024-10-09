@@ -1,5 +1,5 @@
 <template>
-    <header class="mx-auto w-1/2 mt-8">
+    <header class="mt-8">
         <h1 class="text-center text-2xl font-bold uppercase">
         todolu
         </h1>
