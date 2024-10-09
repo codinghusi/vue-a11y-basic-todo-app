@@ -1,7 +1,13 @@
 <template>
-    <div>        
+    <div class="flex flex-col gap-3">
+        <div v-if="filters" class="flex flex-row justify-end gap-4">
+            <span> Filter: </span>
+            <button class="filter-button" :class="{ active: setFilter === 'finished' }" @click="toggleFilter('finished')">finished</button>
+            <button class="filter-button" :class="{ active: setFilter === 'unfinished' }" @click="toggleFilter('unfinished')">unfinished</button>
+        </div>
+
         <ul class="w-full flex flex-col gap-2">
-            <li class="row-container" :class="{done: todo.done}" v-for="(todo, index) in todos" :todo="todo" :key="todo.id">
+            <li class="row-container" :class="{done: todo.done}" v-for="(todo, index) in todos" :todo="todo" :key="todo.id" v-if="checkFilterOn(todo)">
                 <input type="checkbox" v-model="todo.done" class="cursor-pointer" @change="emitUpdate"/>
 
                 <span class="description" v-if="!isRowInEditMode(todo)" @dblclick="putRowInEditMode(todo)">
@@ -39,7 +45,7 @@
         </ul>
 
         <div class="flex justify-end" v-if="controls">
-            <button class="border rounded p-2 mt-4 cursor-pointer" @click="addRow">
+            <button class="border rounded p-2 cursor-pointer" @click="addRow">
                 add
             </button>
         </div>
@@ -56,6 +62,17 @@
             },
             controls: {
                 type: Boolean
+            },
+            filters: {
+                type: Boolean
+            }
+        },
+        data() {
+            return {
+                rowInEditMode: null,
+                editinigDescription: '',
+                nextId: Math.max(...this.todos.map(todo => todo.id)) + 1,
+                setFilter: 'none'
             }
         },
         methods: {
@@ -102,13 +119,25 @@
             },
             emitUpdate() {
                 this.$emit('update', this.todos)
-            }
-        },
-        data() {
-            return {
-                rowInEditMode: null,
-                editinigDescription: '',
-                nextId: Math.max(...this.todos.map(todo => todo.id)) + 1
+            },
+            toggleFilter(value) {
+                if (this.setFilter === value) {
+                    this.setFilter = 'none'
+                } else {
+                    this.setFilter = value
+                }
+            },
+            checkFilterOn(todo) {
+                if (this.setFilter === 'none') {
+                    return true
+                }
+                if (this.setFilter === 'finished' && todo.done) {
+                    return true
+                }
+                if (this.setFilter === 'unfinished' && !todo.done) {
+                    return true
+                }
+                return false
             }
         }
     }
@@ -130,5 +159,14 @@
 
 .description-editable {
     @apply flex-1
+}
+
+
+.filter-button {
+    @apply border rounded bg-gray-100 px-2
+}
+
+.filter-button.active {
+    @apply bg-blue-600 text-white
 }
 </style>

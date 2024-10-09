@@ -37,8 +37,8 @@ export default {
   <div id="app" class="mx-auto w-1/2">
     <Header />
 
-    <main class="mt-4">
-      <TodoList :todos="todos" class="w-full" :controls="true" @update="save" />
+    <main class="mt-8">
+      <TodoList :todos="todos" class="w-full" @update="save" controls filters />
     </main>
       
   </div>
