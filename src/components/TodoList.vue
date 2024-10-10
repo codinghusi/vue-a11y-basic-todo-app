@@ -1,17 +1,11 @@
+<script setup>
+import TodoFilters from './TodoFilters.vue';
+</script>
+
 <template>
     <div class="flex flex-col gap-3">
         <span aria-live="polite" class="sr-only">{{ announcementMessage }}</span>
-
-        <!-- Filters -->
-
-        <div v-if="filters" class="flex flex-row justify-end gap-4 justify-items-center content-center">
-            <label for="filters" class="py-2 cursor-pointer">Filters:</label>
-            <select v-model="setFilter" class="btn" id="filters">
-                <option value="none">No filter</option>
-                <option value="finished" aria-label="show only finished todos">Finished</option>
-                <option value="unfinished" aria-label="show only unfinished todos">Unfinished</option>
-            </select>
-        </div>
+        <TodoFilters v-model="setFilter" v-if="filters" />
 
         <!-- Todo List -->
         <ul class="w-full flex flex-col gap-2" :aria-label="`${setFilter === 'none'
