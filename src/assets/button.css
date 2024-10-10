@@ -1,0 +1,11 @@
+.btn {
+    @apply border rounded p-2 cursor-pointer box-border;
+}
+
+.btn-primary {
+    /* @apply bg-indigo-200 text-black */
+}
+
+.btn:hover, btn:focus {
+    @apply border-2 border-black
+}

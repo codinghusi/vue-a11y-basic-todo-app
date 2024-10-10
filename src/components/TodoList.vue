@@ -1,10 +1,13 @@
 <script setup>
+import ScreenReaderAnnouncer from './ScreenReaderAnnouncer.vue';
+import TodoEntry from './TodoEntry.vue';
 import TodoFilters from './TodoFilters.vue';
 </script>
 
 <template>
     <div class="flex flex-col gap-3">
-        <span aria-live="polite" class="sr-only">{{ announcementMessage }}</span>
+        <ScreenReaderAnnouncer ref="announcer" />
+        
         <TodoFilters v-model="setFilter" v-if="filters" />
 
         <!-- Todo List -->
@@ -14,56 +17,22 @@ import TodoFilters from './TodoFilters.vue';
                     ? 'finished'
                     : 'unfinished'
             } todos`">
-            <li class="row-container" :class="{ done: todo.done }" v-for="(todo, index) in filteredTodos" :todo="todo"
-                :key="todo.id">
-                <span class="sr-only">
-                    ({{ todo.done ? "finished" : "unfinished" }}) todo
-                </span>
+            <li v-for="(todo, index) in filteredTodos" :key="todo.id">
+                <TodoEntry
+                    :todo="todo"
+                    :isFirst="index === 0"
+                    :isLast="index === filteredTodos.length - 1"
+                    :position="index + 1"
 
-                <input type="checkbox" v-model="todo.done" class="cursor-pointer"
-                    @change="() => { emitUpdate(); announce(`marked todo as ${todo.done ? 'finished' : 'unfinished'}`) }"
-                    ref="row-start" :aria-label="todo.done ? 'mark todo as unfinished' : 'mark todo as finished'
-                        " />
-
-                <span class="description" v-if="!isRowInEditMode(todo)">
-                    {{ todo.description }}
-                </span>
-
-                <input type="text" class="border rounded px-2 description-editable" v-model="editinigDescription"
-                    ref="editableDescription" @keypress.enter="doneEditMode()" @keydown.esc="cancelEditMode()" v-else
-                    :aria-label="'description of todo ' +
-                        index +
-                        ' press enter to confirm, escape to cancel'
-                        " />
-
-                <button class="cursor-pointer" v-if="!isRowInEditMode(todo)" @click="putRowInEditMode(todo)"
-                    aria-label="edit the description of todo">
-                    <v-icon icon="edit" />
-                </button>
-                <template v-else>
-                    <button class="cursor-pointer" @click="cancelEditMode()"
-                        aria-label="cancel and restore previous description">
-                        <v-icon icon="undo" />
-                    </button>
-                    <button class="cursor-pointer" @click="doneEditMode()" aria-label="confirm your input">
-                        <v-icon icon="save" />
-                    </button>
-                </template>
-
-                <button class="cursor-pointer" :class="{ invisible: index === 0 }" @click="moveUp(index, todo)"
-                    :ref="'button-up-' + todo.id" aria-label="move entry one up">
-                    <v-icon icon="angle-up" />
-                </button>
-
-                <button class="cursor-pointer" :class="{ invisible: index === todos.length - 1 }"
-                    aria-label="move entry one down" @click="moveDown(index, todo)" :ref="'button-down-' + todo.id">
-                    <v-icon icon="angle-down" />
-                </button>
-
-                <button class="cursor-pointer" @click="deleteTodo(index, todo)" aria-label="remove entry">
-                    <v-icon icon="trash-alt" />
-                </button>
+                    @moveUp="onMoveUp"
+                    @moveDown="onMoveDown"
+                    @updateDescription="onUpdateDescription"
+                    @updateDoneState="onUpdateDoneState"
+                    @deleteEntry="onDelete"
+                    @enteringEditMode="onEnteringEditMode"
+                    />
             </li>
+            
         </ul>
 
         <!-- Add Button -->
@@ -111,6 +80,27 @@ export default {
         },
     },
     methods: {
+
+        onMoveUp() {
+
+        },
+        onMoveDown() {
+
+        },
+        onUpdateDescription() {
+
+        },
+        onUpdateDoneState() {
+
+        },
+        onDelete() {
+
+        },
+        onEnteringEditMode() {
+            
+        },
+
+
         isRowInEditMode(todo) {
             return this.rowInEditMode?.id === todo.id;
         },
@@ -242,50 +232,5 @@ export default {
 </script>
 
 <style scoped>
-.row-container {
-    @apply flex flex-row gap-3;
-    @apply p-4 border rounded;
-}
-
-.description {
-    @apply flex-1;
-}
-
-.done>.description {
-    @apply line-through;
-}
-
-.description-editable {
-    @apply flex-1;
-}
-
-.filter-button {
-    @apply border rounded bg-gray-100 px-2;
-}
-
-.filter-button.active {
-    @apply bg-blue-600 text-white;
-}
-
-.sr-only {
-    /* https://webaim.org/techniques/css/invisiblecontent/ */
-    position: absolute;
-    left: -10000px;
-    top: auto;
-    width: 1px;
-    height: 1px;
-    overflow: hidden;
-}
-
-.btn {
-    @apply border rounded p-2 cursor-pointer box-border;
-}
-
-.btn-primary {
-    /* @apply bg-indigo-200 text-black */
-}
-
-.btn:hover, btn:focus {
-    @apply border-2 border-black
-}
+@import '../assets/button.css';
 </style>
