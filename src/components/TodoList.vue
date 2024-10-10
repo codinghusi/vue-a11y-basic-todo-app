@@ -3,32 +3,14 @@
     <span aria-live="polite" class="sr-only">{{ announcementMessage }}</span>
 
     <!-- Filters -->
-    <div v-if="filters" class="flex flex-row justify-end gap-4">
-      <span> Filter: </span>
-      <button
-        class="filter-button"
-        :class="{ active: setFilter === 'finished' }"
-        @click="toggleFilter('finished')"
-        :aria-label="
-          setFilter === 'finished'
-            ? 'show all todos, current filter is set to finished'
-            : 'show only finished todos'
-        "
-      >
-        finished
-      </button>
-      <button
-        class="filter-button"
-        :class="{ active: setFilter === 'unfinished' }"
-        @click="toggleFilter('unfinished')"
-        :aria-label="
-          setFilter === 'unfinished'
-            ? 'show all todos, current filter is set to unfinished'
-            : 'show only unfinished todos'
-        "
-      >
-        unfinished
-      </button>
+    
+    <div v-if="filters" class="flex flex-row justify-end gap-4 justify-items-center content-center">
+        <label for="filters" class="py-2">Filters:</label>
+        <select v-model="setFilter" class="border rounded p-2" id="filters">
+            <option value="none">No filter</option>
+            <option value="finished" aria-label="show only finished todos">Finished</option>
+            <option value="unfinished" aria-label="show only unfinished todos">Unfinished</option>
+        </select>
     </div>
 
     <!-- Todo List -->
@@ -57,7 +39,7 @@
           type="checkbox"
           v-model="todo.done"
           class="cursor-pointer"
-          @change="emitUpdate"
+          @change="() => {emitUpdate(); announce(`marked todo as ${todo.done ? 'finished' : 'unfinished'}`) }"
           ref="row-start"
           :aria-label="
             todo.done ? 'mark todo as unfinished' : 'mark todo as finished'
