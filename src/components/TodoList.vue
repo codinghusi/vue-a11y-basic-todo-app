@@ -6,7 +6,7 @@
 
         <div v-if="filters" class="flex flex-row justify-end gap-4 justify-items-center content-center">
             <label for="filters" class="py-2 cursor-pointer">Filters:</label>
-            <select v-model="setFilter" class="border rounded p-2 cursor-pointer" id="filters">
+            <select v-model="setFilter" class="btn" id="filters">
                 <option value="none">No filter</option>
                 <option value="finished" aria-label="show only finished todos">Finished</option>
                 <option value="unfinished" aria-label="show only unfinished todos">Unfinished</option>
@@ -74,7 +74,7 @@
 
         <!-- Add Button -->
         <div class="flex justify-end" v-if="controls">
-            <button class="border rounded p-2 cursor-pointer" @click="addRow" aria-label="add a new todo">
+            <button class="btn btn-primary" @click="addRow" aria-label="add a new todo">
                 Add todo entry <v-icon icon="plus" />
             </button>
         </div>
@@ -235,7 +235,6 @@ export default {
             this.lastFocusedElement.focus();
         },
 
-        // announce: debounce((message) => this.announcementMessage = message, 500),
         announce(message) {
             if (this.announcementDebounce !== null) {
                 clearTimeout(this.announcementDebounce);
@@ -282,5 +281,17 @@ export default {
     width: 1px;
     height: 1px;
     overflow: hidden;
+}
+
+.btn {
+    @apply border rounded p-2 cursor-pointer box-border;
+}
+
+.btn-primary {
+    /* @apply bg-indigo-200 text-black */
+}
+
+.btn:hover, btn:focus {
+    @apply border-2 border-black
 }
 </style>
