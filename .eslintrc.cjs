@@ -2,10 +2,12 @@
 require("@rushstack/eslint-patch/modern-module-resolution");
 
 module.exports = {
-  "root": true,
-  "extends": [
+  root: true,
+  extends: [
     "plugin:vue/essential",
     "eslint:recommended",
-    "@vue/eslint-config-prettier"
-  ]
-}
+    "@vue/eslint-config-prettier",
+    "plugin:vuejs-accessibility/recommended",
+  ],
+  plugins: ["vuejs-accessibility"],
+};
