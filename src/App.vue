@@ -38,7 +38,13 @@ export default {
     <AppHeader />
 
     <main class="mt-8">
-      <TodoList :todos="todos" class="w-full" @update="save" controls filters />
+      <TodoList
+        :todoList="todos"
+        class="w-full"
+        @update="save"
+        controls
+        filters
+      />
     </main>
   </div>
 </template>
