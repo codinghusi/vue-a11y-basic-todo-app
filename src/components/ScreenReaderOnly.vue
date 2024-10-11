@@ -1,5 +1,5 @@
 <template>
-    <div class="sr-only">
-        <slot />
-    </div>
+  <div class="sr-only">
+    <slot />
+  </div>
 </template>
