@@ -6,8 +6,8 @@
 
     <ScreenReaderAnnouncer ref="announcer" />
 
-    <input type="checkbox" :checked="todo.done" class="cursor-pointer" @change="() => {
-        $emit('updateDoneState', $event.target.checked);
+    <input type="checkbox" :checked="todo.done" class="cursor-pointer" @change="e => {
+        $emit('updateDoneState', e.target.checked);
         announce(`marked todo as ${todo.done ? 'finished' : 'unfinished'}`);
       }
       " ref="finish-checkbox" :aria-label="todo.done ? 'mark todo as unfinished' : 'mark todo as finished'
