@@ -6,98 +6,54 @@
 
     <ScreenReaderAnnouncer ref="announcer" />
 
-    <input
-      type="checkbox"
-      :checked="todo.done"
-      class="cursor-pointer"
-      @change="
-        () => {
-          $emit('updateDoneState', $event.target.checked);
-          announce(`marked todo as ${todo.done ? 'finished' : 'unfinished'}`);
-        }
-      "
-      ref="finish-checkbox"
-      :aria-label="
-        todo.done ? 'mark todo as unfinished' : 'mark todo as finished'
-      "
-    />
+    <input type="checkbox" :checked="todo.done" class="cursor-pointer" @change="() => {
+        $emit('updateDoneState', $event.target.checked);
+        announce(`marked todo as ${todo.done ? 'finished' : 'unfinished'}`);
+      }
+      " ref="finish-checkbox" :aria-label="todo.done ? 'mark todo as unfinished' : 'mark todo as finished'
+        " />
 
     <span v-if="!editMode" class="description">
       {{ todo.description }}
     </span>
 
-    <input
-      v-else
-      type="text"
-      class="border rounded px-2 description-editable"
-      ref="editable-description"
-      v-model="stagedDescription"
-      @keypress.enter="doneEditingDescription"
-      @keydown.esc="cancelEditingDescription"
-      :aria-label="
-        'description of todo ' +
+    <input v-else type="text" class="border rounded px-2 description-editable" ref="editable-description"
+      v-model="stagedDescription" @keypress.enter="doneEditingDescription" @keydown.esc="cancelEditingDescription"
+      :aria-label="'description of todo ' +
         position +
         ' press enter to confirm, escape to cancel'
-      "
-    />
+        " />
 
-    <button
-      v-if="!editMode"
-      class="cursor-pointer"
-      ref="edit-button"
-      @click="startEditingDescription"
-      aria-label="edit the description of todo"
-    >
+    <button v-if="!editMode" class="cursor-pointer" ref="edit-button" @click="startEditingDescription"
+      aria-label="edit the description of todo">
       <v-icon icon="edit" />
     </button>
 
     <template v-else>
-      <button
-        class="cursor-pointer"
-        ref="cancel-button"
-        @click="cancelEditingDescription"
-        aria-label="cancel and restore previous description"
-      >
+      <button class="cursor-pointer" ref="cancel-button" @click="cancelEditingDescription"
+        aria-label="cancel and restore previous description">
         <v-icon icon="undo" />
       </button>
-      <button
-        class="cursor-pointer"
-        ref="save-button"
-        @click="doneEditingDescription"
-        aria-label="confirm your input"
-      >
+      <button class="cursor-pointer" ref="save-button" @click="doneEditingDescription" aria-label="confirm your input">
         <v-icon icon="save" />
       </button>
     </template>
 
-    <button
-      class="cursor-pointer"
-      :class="{ invisible: isFirst }"
-      ref="up-button"
-      @click="$emit('moveUp')"
-      aria-label="move entry one up"
-    >
-      <v-icon icon="angle-up" />
-    </button>
-
-    <button
-      class="cursor-pointer"
-      :class="{ invisible: isLast }"
-      ref="down-button"
-      @click="$emit('moveDown')"
-      aria-label="move entry one down"
-    >
-      <v-icon icon="angle-down" />
-    </button>
-
-    <button
-      class="cursor-pointer"
-      ref="delete-button"
-      @click="$emit('deleteEntry')"
-      aria-label="remove entry"
-    >
+    <button class="cursor-pointer" ref="delete-button" @click="$emit('deleteEntry')" aria-label="remove entry">
       <v-icon icon="trash-alt" />
     </button>
+
+    <div class="flex flex-col gap-0">
+      <button class="cursor-pointer" :class="{ invisible: isFirst }" ref="up-button" @click="$emit('moveUp')"
+        aria-label="move entry one up">
+        <v-icon icon="angle-up" />
+      </button>
+
+      <button class="cursor-pointer" :class="{ invisible: isLast }" ref="down-button" @click="$emit('moveDown')"
+        aria-label="move entry one down">
+        <v-icon icon="angle-down" />
+      </button>
+    </div>
   </div>
 </template>
 
@@ -218,15 +174,14 @@ export default {
 
 <style scoped>
 .row-container {
-  @apply flex flex-row gap-3;
-  @apply flex flex-row gap-3 p-4 border rounded;
+  @apply flex flex-row gap-5 p-4 border rounded items-center;
 }
 
 .description {
   @apply flex-1;
 }
 
-.done > .description {
+.done>.description {
   @apply line-through;
 }
 
